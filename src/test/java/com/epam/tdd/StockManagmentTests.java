@@ -6,22 +6,16 @@ import static org.mockito.Mockito.*;
 
 public class StockManagmentTests {
 
-    ExternalISBNDataService testWebService = new ExternalISBNDataService() {
-        @Override
-        public Book lookup(String isbn) {
-            return new Book(isbn, "Of Mice And Men","J. Steinbeck");
-        }
-    };
 
-    ExternalISBNDataService testDataBaseService = new ExternalISBNDataService() {
-        @Override
-        public Book lookup(String isbn) {
-            return null;
-        }
-    };
 
     @Test
     public void testGetACorrectLocatorCode(){
+        ExternalISBNDataService testWebService = mock(ExternalISBNDataService.class);
+        when(testWebService.lookup(anyString())).thenReturn(new Book("0140177396", "Of Mice And Men","J. Steinbeck"));
+
+        ExternalISBNDataService testDataBaseService = mock(ExternalISBNDataService.class);
+        when(testDataBaseService.lookup(anyString())).thenReturn(null);
+
         String isbn = "0140177396";
         StockManager stockManager = new StockManager();
         stockManager.setWebService(testWebService);
