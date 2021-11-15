@@ -47,7 +47,6 @@ public class HttpTestDomain {
     public DomainStatus getCheckdomain(String baseUrl) {
         int resultCode = getHttpStatusCode(baseUrl);
         if (resultCode >= 200 && resultCode < 300)
-            // тут ошибка была в логическом операторе ||
             return DomainStatus.ENABLE;
         else
             return DomainStatus.DISABLE;
