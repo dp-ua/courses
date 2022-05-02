@@ -22,17 +22,6 @@
     </build>
 
 
-    <repositories>
-        <repository>
-            <id>ProofyJavaAPI-mvn-repo</id>
-            <url>https://raw.github.com/dp-ua/ProofyJavaAPI/mvn-repo</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-        </repository>
-    </repositories>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -52,30 +41,6 @@
     </dependencyManagement>
 
     <dependencies>
-        <dependency>
-            <groupId>io.proofy</groupId>
-            <artifactId>proofyApi</artifactId>
-            <version>1.0.1</version>
-        </dependency>
-        <!--            start Proofy-->
-        <dependency>
-            <groupId>com.jsunsoft.http</groupId>
-            <artifactId>http-request</artifactId>
-            <version>2.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.5.13</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpcore</artifactId>
-            <version>4.4.6</version>
-        </dependency>
-        <!--            end Proofy-->
-
-
         <dependency>
             <groupId>io.projectreactor</groupId>
             <artifactId>reactor-core</artifactId>
