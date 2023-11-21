@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="RU">
+
+<head>
+    <title>Диалоговая форма</title>
+    <script src="key.js"></script>
+    <script>
+        // prepare request that send question to some api and get answer from it
+        console.log("apiKey: " + apiKey);
+        const apiUrl = 'https://api.openai.com/v1/chat/completions';
+
+
+        async function sendMessage(inputMessage) {
+            var message = "Ты шуточный бот\n" +
+                "Твоя задача на любые вопросы пользователя отвечать какой-то смешной фразой\ n" +
+                "и в ней обязательно должна присутствовать шутка про Ярика.\n" +
+                "Иногда случайно можно добавлять фразу, что потек бачек. \n" +
+                "Вопрос пользователя заключен в тройные кавычки ''''''\n" +
+                inputMessage + "\n''''''\n";
+
+            const data = {
+                model: 'gpt-3.5-turbo',
+                messages: [{
+                    role: 'user',
+                    content: message
+                }],
+                temperature: 0.7
+            };
+
+            const headers = new Headers();
+            headers.append('Content-Type', 'application/json');
+            headers.append('Authorization', `Bearer ${apiKey}`);
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify(data)
+            });
+
+            const responseData = await response.json();
+            console.log(responseData);
+            generateResponse(responseData.choices[0].message.content);
+        }
+
+        function sendQuestion() {
+            var questionInput = document.getElementById("question");
+            var question = questionInput.value;
+
+            sendMessage(question);
+        }
+
+        function generateResponse(answer) {
+            var questionInput = document.getElementById("question");
+            var responseList = document.getElementById("response-list");
+
+            var question = questionInput.value;
+
+            var questionItem = document.createElement("li");
+            questionItem.textContent = "Вопрос: " + question;
+
+            var answerItem = document.createElement("li");
+            answerItem.textContent = "Ответ: " + answer;
+
+            responseList.appendChild(questionItem);
+            responseList.appendChild(answerItem);
+
+            questionInput.value = "";
+
+            responseList.scrollTop = responseList.scrollHeight;
+        }
+    </script>
+    <style>
+        #response-form {
+            height: 200px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Диалоговая форма</h1>
+    <form>
+        <label for="question">Ваш вопрос:</label><br>
+        <input type="text" id="question" name="question" required onkeydown="if(event.keyCode==13) {sendQuestion(); return false;}"><br><br>
+        <input type="button" value="Отправить" onclick="sendQuestion()">
+    </form>
+
+    <br>
+
+    <form id="response-form">
+        <ul id="response-list"></ul>
+    </form>
+</body>
+
+</html>
